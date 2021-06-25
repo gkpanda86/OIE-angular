@@ -1,0 +1,61 @@
+<div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+<div style="width:50%;padding-left: 25%;"> 
+    <div *ngIf="state === 'login'">
+        <h2>Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" formControlName="username" class="form-control"  />
+                
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" formControlName="password" class="form-control"  />
+            
+        </div>
+        <div class="form-group">
+            <button  class="btn btn-primary">
+                <!--span  class="spinner-border spinner-border-sm mr-1"></span-->
+                Login
+            </button>
+            <a routerLink="/signup" class="btn btn-link">Register</a>
+            <a routerLink="/forgot-password" class="btn btn-link">Forgot Password</a>
+        </div>
+    </form>
+    </div>
+
+    <div *ngIf="state === 'AWAITING_AUTHENTICATOR_SELECTION'">
+        <table>
+            <thead>
+                <th>Factor</th>
+                <th>Select</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let auth of authenticators">
+                    <td>{{auth.label}}</td>
+                    <td> <button class="btn btn-primary" (click)="selectFactor(auth)">Select</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div *ngIf="state === 'AWAITING_AUTHENTICATOR_VERIFICATION'">
+        <div class="form-group">
+            <label for="username">Code</label>
+            <input type="text" class="form-control" [(ngModel)]="answer"/>
+            <button class="btn btn-primary" (click)="answerChallenge()">Submit Code Challenge</button>
+            <button class="btn btn-primary" (click)="resendCode()">Resend Code</button>
+        </div>
+
+    </div>
+    <div *ngIf="state === 'AWAITING_AUTHENTICATOR_VERIFICATION_DATA'">
+        <div class="form-group">
+            <label for="username">Enter your phone</label>
+            <input type="text" class="form-control" [(ngModel)]="answer"/>
+            <button class="btn btn-primary" (click)="answerChallenge()">Submit</button>
+        </div>
+
+    </div>
+</div>
+
